@@ -200,15 +200,34 @@ BOARD_USES_QC_TIME_SERVICES := true
 # inherit from the proprietary version
 -include vendor/zuk/z2/BoardConfigVendor.mk
 
-#twrp
+
+# Recovery
+TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/etc/fstab.qcom
+BOARD_HAS_LARGE_FILESYSTEM := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+
+# TWRP specific build flags
 RECOVERY_VARIANT := twrp
 TW_THEME := portrait_hdpi
-BOARD_HAS_FLIPPED_SCREEN := true
-PRODUCT_COPY_FILES += device/zuk/z2/twrp.fstab:recovery/root/etc/twrp.fstab
-TW_INPUT_BLACKLIST := "hbtp_vm"
+RECOVERY_SDCARD_ON_DATA := true
+BOARD_HAS_NO_REAL_SDCARD := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBA_8888"
 TARGET_RECOVERY_QCOM_RTC_FIX := true
-TARGET_RECOVERY_DEVICE_MODULES := libbinder libgui libui libEGL libGLES_trace libGLESv2 libprotobuf-cpp-lite libsync # twrpdec
-TW_RECOVERY_ADDITIONAL_RELINK_FILES := $(OUT)/system/lib64/libbinder.so $(OUT)/system/lib64/libgui.so $(OUT)/system/lib64/libui.so $(OUT)/system/lib64/libEGL.so $(OUT)/system/lib64/libGLES_trace.so $(OUT)/system/lib64/libGLESv2.so $(OUT)/system/lib64/libprotobuf-cpp-lite.so $(OUT)/system/lib64/libsync.so # $(OUT)/recovery/root/sbin/twrpdec
-#TWRP_INCLUDE_LOGCAT := true
-#TW_HAS_DOWNLOAD_MODE := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/module/g_android/parameters/file"
+TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 100
+TW_SCREEN_BLANK_ON_BOOT := true
+TW_MTP_DEVICE := "/dev/mtp_usb"
+TW_NO_EXFAT_FUSE := true
 TW_INCLUDE_CRYPTO := true
+BOARD_SUPPRESS_EMMC_WIPE := true
+TW_UNMOUNT_FIRMWARE_ON_BOOT := true
+TWHAVE_SELINUX := true
+
+#twrp
+#BOARD_HAS_FLIPPED_SCREEN := true
+#PRODUCT_COPY_FILES += device/zuk/z2/twrp.fstab:recovery/root/etc/twrp.fstab
+#TW_INPUT_BLACKLIST := "hbtp_vm"
